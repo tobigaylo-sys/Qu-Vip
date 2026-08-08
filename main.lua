@@ -8,36 +8,15 @@ local Window = OrionLib:MakeWindow({
 })
 
 -- 1. Tab Discord
-local DiscordTab = Window:MakeTab({
-    Name = "Discord",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-DiscordTab:AddSection({
-    Name = "CrowHub | Community"
-})
-
-DiscordTab:AddParagraph("Thông báo", "Tham gia cộng đồng Discord của chúng tôi để nhận thông tin cập nhật mới nhất!")
-
+local DiscordTab = Window:MakeTab({ Name = "Discord", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+DiscordTab:AddSection({ Name = "CrowHub | Community" })
+DiscordTab:AddParagraph("Thông báo", "Tham gia cộng đồng Discord của chúng tôi!")
 DiscordTab:AddButton({
     Name = "Copy Link Discord",
     Callback = function()
         setclipboard("https://discord.gg/yourlink")
-        OrionLib:MakeNotification({
-            Name = "CrowHub",
-            Content = "Đã sao chép link Discord!",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
     end    
 })
-
-DiscordTab:AddSection({
-    Name = "Debug Farm"
-})
-
-DiscordTab:AddParagraph("Checking Farm", "🔴 Hiện tại không có chức năng nào được kích hoạt.")
 
 -- 2. Tab Server
 local ServerTab = Window:MakeTab({ Name = "Server", Icon = "rbxassetid://4483345998", PremiumOnly = false })
@@ -47,32 +26,37 @@ ServerTab:AddSection({ Name = "Server Options" })
 local ShopTab = Window:MakeTab({ Name = "Shop", Icon = "rbxassetid://4483345998", PremiumOnly = false })
 ShopTab:AddSection({ Name = "Shop Items" })
 
--- 4. Tab Farm
+-- 4. Tab Farm (Đã thêm nút Auto Farm)
 local FarmTab = Window:MakeTab({ Name = "Farm", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-FarmTab:AddSection({ Name = "Auto Farm" })
+FarmTab:AddSection({ Name = "Auto Farm Level" })
 
--- 5. Tab Skill Settings
+_G.AutoFarm = false
+
+FarmTab:AddToggle({
+    Name = "Auto Farm Level",
+    Default = false,
+    Callback = function(Value)
+        _G.AutoFarm = Value
+    end    
+})
+
+-- Vòng lặp Auto Farm cơ bản
+task.spawn(function()
+    while task.wait() do
+        if _G.AutoFarm then
+            pcall(function()
+                -- Code gom quái và gom quest sẽ viết tiếp vào đây
+            end)
+        end
+    end
+end)
+
+-- Các Tab khác
 local SkillTab = Window:MakeTab({ Name = "Skill Settings", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-SkillTab:AddSection({ Name = "Skill Options" })
-
--- 6. Tab Hop Farm
 local HopTab = Window:MakeTab({ Name = "Hop Farm", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-HopTab:AddSection({ Name = "Server Hop" })
-
--- 7. Tab Stack Farming
 local StackTab = Window:MakeTab({ Name = "Stack Farming", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-StackTab:AddSection({ Name = "Stack Options" })
-
--- 8. Tab PVP
 local PVPTab = Window:MakeTab({ Name = "PVP", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-PVPTab:AddSection({ Name = "PVP Options" })
-
--- 9. Tab Fishing/Slap Fish
 local FishTab = Window:MakeTab({ Name = "Fishing/Slap Fish", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-FishTab:AddSection({ Name = "Fishing Options" })
-
--- 10. Tab Esp
 local EspTab = Window:MakeTab({ Name = "Esp", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-EspTab:AddSection({ Name = "Player/Chest ESP" })
 
 OrionLib:Init()
